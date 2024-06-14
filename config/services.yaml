@@ -1,0 +1,23 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+
+    command_handlers:
+        namespace: App\
+        resource: '%kernel.project_dir%/src/*/Application/**/*CommandHandler.php'
+        autoconfigure: false
+        tags:
+            - { name: messenger.message_handler, bus: command.bus }
+
+    query_handlers:
+        namespace: App\
+        resource: '%kernel.project_dir%/src/*/Application/**/*QueryHandler.php'
+        autoconfigure: false
+        tags:
+            - { name: messenger.message_handler, bus: query.bus }
