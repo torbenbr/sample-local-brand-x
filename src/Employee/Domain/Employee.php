@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: DoctrineEmployeeRepository::class)]
-final readonly class Employee
+class Employee
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
