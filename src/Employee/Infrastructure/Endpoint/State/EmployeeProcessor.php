@@ -9,11 +9,12 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Employee\Application\Command\ImportingEmployees\ImportingEmployeesCommand;
 use App\Employee\Infrastructure\Endpoint\ApiResource\Employees;
 use App\Shared\Application\Bus\CommandBus;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * @implements ProcessorInterface<Employees>
+ * @implements ProcessorInterface<Employees, null>
  */
 final readonly class EmployeeProcessor implements ProcessorInterface
 {
@@ -24,6 +25,8 @@ final readonly class EmployeeProcessor implements ProcessorInterface
     #[\Override]
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): null
     {
+        /** @var Request $request */
+        /* @phpstan-ignore-next-line */
         $request = $context['request'];
         // @todo validate content
         $content = $request->getContent();

@@ -11,7 +11,7 @@ use App\Employee\Infrastructure\Endpoint\ApiResource\Employee;
 use App\Shared\Application\Bus\CommandBus;
 
 /**
- * @implements ProcessorInterface<Employee, Employee>
+ * @implements ProcessorInterface<Employee, null>
  */
 final readonly class DeleteEmployeeProcessor implements ProcessorInterface
 {
