@@ -27,6 +27,7 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
     echo "The database is now ready and reachable"
   fi
 
+  php bin/console messenger:setup-transports --no-interaction
   php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing --allow-no-migration
 
 	setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
