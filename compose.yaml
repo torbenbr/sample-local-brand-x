@@ -1,12 +1,12 @@
 services:
   php:
     image: ${IMAGES_PREFIX:-}app-php
+    restart: unless-stopped
     depends_on:
       - database
     environment:
       SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
-      TRUSTED_HOSTS: ${TRUSTED_HOSTS:-^${SERVER_NAME:-example\.com|localhost}|php$$}
       DATABASE_URL: mysql://${MARIADB_USER:-app}:${MARIADB_PASSWORD:-!ChangeMe!}@database:3306/${MARIADB_DB:-app}?serverVersion=${MARIADB_VERSION:-11.4.2}-MariaDB&charset=utf8mb4
     volumes:
       - caddy_data:/data
@@ -25,8 +25,22 @@ services:
         published: ${HTTP3_PORT:-443}
         protocol: udp
 
+  messenger:
+    image: ${IMAGES_PREFIX:-}app-messenger
+    restart: unless-stopped
+    depends_on:
+      - database
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
+      DATABASE_URL: mysql://${MARIADB_USER:-app}:${MARIADB_PASSWORD:-!ChangeMe!}@database:3306/${MARIADB_DB:-app}?serverVersion=${MARIADB_VERSION:-11.4.2}-MariaDB&charset=utf8mb4
+    healthcheck:
+      disable: true
+    command:
+       ['./bin/console', 'messenger:consume', 'async']
+
   database:
     image: mariadb:${MARIADB_VERSION:-11.4.2}
+    restart: unless-stopped
     environment:
       MARIADB_DATABASE: ${MARIADB_DB:-app}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD:-!ChangeMe!}

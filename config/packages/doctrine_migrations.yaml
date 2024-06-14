@@ -1,3 +1,4 @@
 doctrine_migrations:
-    migrations_paths: ~
+    migrations_paths:
+        'App\Employee\Infrastructure\Persistence\Doctrine\Migration': '%kernel.project_dir%/src/Employee/Infrastructure/Persistence/Doctrine/Migration'
     enable_profiler: false

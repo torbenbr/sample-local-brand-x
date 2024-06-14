@@ -3,6 +3,8 @@ api_platform:
     version: 1.0.0
     formats:
         jsonld: ['application/ld+json']
+        json: ['application/json']
+        csv: ['text/csv']
     docs_formats:
         jsonld: ['application/ld+json']
         jsonopenapi: ['application/vnd.openapi+json']
@@ -16,3 +18,5 @@ api_platform:
             rfc_7807_compliant_errors: true
     keep_legacy_inflector: false
     use_symfony_listeners: true
+    resource_class_directories:
+        - '%kernel.project_dir%/src/Employee/Infrastructure/Endpoint/ApiResource'
